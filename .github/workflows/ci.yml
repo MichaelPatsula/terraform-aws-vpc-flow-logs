@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, feat-initial-commit ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, feat-initial-commit ]
 
 env:
   TF_VERSION: '1.6.0'
@@ -20,7 +20,6 @@ jobs:
         example: [
           'cloudwatch-basic',
           's3-basic',
-          'existing-destination',
           'advanced-configuration',
           'complete-infrastructure'
         ]
@@ -50,7 +49,7 @@ jobs:
     - name: Terraform Plan
       run: |
         cd examples/${{ matrix.example }}
-        terraform plan -var="aws_region=us-west-2" -out=tfplan
+        terraform plan -var="aws_region=ca-central-1" -out=tfplan
 
   terraform-lint:
     name: 'Terraform Lint'
@@ -125,15 +124,3 @@ jobs:
 
     - name: Run markdownlint
       run: markdownlint "**/*.md" --ignore node_modules
-
-  # dependency-review:
-  #   name: 'Dependency Review'
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'pull_request'
-
-  #   steps:
-  #   - name: Checkout
-  #     uses: actions/checkout@v4
-
-  #   - name: Dependency Review
-  #     uses: actions/dependency-review-action@v4
