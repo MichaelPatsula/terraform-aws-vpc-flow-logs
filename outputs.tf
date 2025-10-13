@@ -1,6 +1,6 @@
 output "vpc_flow_logs_bucket_name" {
   description = "The ARN of the S3 bucket storing the VPC Flow Logs"
-  value       = var.log_destination_type == "s3" && var.log_destination == null ?  aws_s3_bucket.flow_log_bucket[0].id : null
+  value       = var.log_destination_type == "s3" && var.log_destination == null ? aws_s3_bucket.flow_log_bucket[0].id : null
 }
 
 output "cloud_watch_log_group" {

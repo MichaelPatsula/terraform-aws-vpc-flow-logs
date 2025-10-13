@@ -14,7 +14,7 @@ resource "aws_s3_bucket" "flow_log_bucket" {
   timeouts {
     create = "5m"
     delete = "5m"
-  }  
+  }
 }
 
 resource "aws_s3_bucket_ownership_controls" "flow_log_bucket_ownership" {
@@ -60,7 +60,7 @@ data "aws_iam_policy_document" "flow_log_s3_policy" {
       test     = "ArnLike"
       variable = "aws:SourceArn"
       # The Source ARN must match the region and account of the flow log creator.
-      values   = ["arn:aws:logs:*:${data.aws_caller_identity.this.account_id}:*"]
+      values = ["arn:aws:logs:*:${data.aws_caller_identity.this.account_id}:*"]
     }
 
     condition {

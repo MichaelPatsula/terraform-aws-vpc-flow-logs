@@ -11,12 +11,12 @@ module "vpc_flow_logs_cloudwatch_optimized" {
 
   # CloudWatch configuration with cost optimization
   log_destination_type = "cloud-watch-logs"
-  traffic_type         = "REJECT"  # Only capture rejected traffic to reduce costs
+  traffic_type         = "REJECT" # Only capture rejected traffic to reduce costs
 
   # Advanced CloudWatch settings
   cloudwatch_destination = {
-    retention_in_days = 7   # Short retention for cost savings
-    log_group_class   = "INFREQUENT_ACCESS"  # Cost-optimized log class
+    retention_in_days = 7                   # Short retention for cost savings
+    log_group_class   = "INFREQUENT_ACCESS" # Cost-optimized log class
   }
 
   tags = {
@@ -37,13 +37,13 @@ module "vpc_flow_logs_s3_optimized" {
 
   # S3 configuration with performance optimization
   log_destination_type = "s3"
-  traffic_type         = "ALL"  # Capture all traffic for comprehensive analysis
+  traffic_type         = "ALL" # Capture all traffic for comprehensive analysis
 
   # Advanced S3 destination options
   destination_options = {
-    file_format                = "parquet"  # Columnar format for better performance
-    hive_compatible_partitions = true       # Enable Hive-compatible partitioning
-    per_hour_partition         = true       # Hourly partitions for better query performance
+    file_format                = "parquet" # Columnar format for better performance
+    hive_compatible_partitions = true      # Enable Hive-compatible partitioning
+    per_hour_partition         = true      # Hourly partitions for better query performance
   }
 
   tags = {

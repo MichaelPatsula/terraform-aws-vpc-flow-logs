@@ -9,8 +9,8 @@ resource "aws_cloudwatch_log_group" "vpc_flow_log_cloudwatch" {
 
   name_prefix = "${var.name}-vpc-fl"
 
-  retention_in_days = var.cloudwatch_destination.retention_in_days   
-  log_group_class   = var.cloudwatch_destination.log_group_class                # STANDARD or INFREQUENT_ACCESS
+  retention_in_days = var.cloudwatch_destination.retention_in_days
+  log_group_class   = var.cloudwatch_destination.log_group_class # STANDARD or INFREQUENT_ACCESS
 
   tags = var.tags
 }
@@ -28,8 +28,8 @@ resource "aws_iam_role_policy_attachment" "vpc_flow_log_cloudwatch" {
 resource "aws_iam_role" "vpc_flow_log_cloudwatch" {
   count = var.log_destination_type == "cloud-watch-logs" && var.log_destination == null ? 1 : 0
 
-  name = "${var.name}-vpc-flow-log"
-  description = "VPC Flow Logs using CloudWatch"  
+  name        = "${var.name}-vpc-flow-log"
+  description = "VPC Flow Logs using CloudWatch"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -42,7 +42,7 @@ resource "aws_iam_role" "vpc_flow_log_cloudwatch" {
           Service = ["vpc-flow-logs.amazonaws.com"]
         }
       }
-    ]    
+    ]
   })
 
   tags = var.tags

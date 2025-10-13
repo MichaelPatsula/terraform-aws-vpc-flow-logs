@@ -11,7 +11,7 @@ module "vpc_flow_logs" {
 
   # CloudWatch Logs configuration
   log_destination_type = "cloud-watch-logs"
-  traffic_type         = "ALL"  # Capture all traffic (ACCEPT and REJECT)
+  traffic_type         = "ALL" # Capture all traffic (ACCEPT and REJECT)
 
   # CloudWatch specific settings
   cloudwatch_destination = {

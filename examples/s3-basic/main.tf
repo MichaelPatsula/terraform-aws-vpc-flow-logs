@@ -11,11 +11,11 @@ module "vpc_flow_logs" {
 
   # S3 configuration
   log_destination_type = "s3"
-  traffic_type         = "REJECT"  # Capture only rejected traffic for security analysis
+  traffic_type         = "REJECT" # Capture only rejected traffic for security analysis
 
   # S3 destination options (optional)
   destination_options = {
-    file_format                = "plain-text"  # or "parquet" for better performance
+    file_format                = "plain-text" # or "parquet" for better performance
     hive_compatible_partitions = false
     per_hour_partition         = false
   }
