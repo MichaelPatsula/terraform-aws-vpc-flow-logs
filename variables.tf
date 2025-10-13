@@ -27,6 +27,9 @@ variable "destination_options" {
       hive_compatible_partitions = optional(bool, false)
       per_hour_partition         = optional(bool, false) 
     })
+    default = {
+      file_format = "plain-text"
+    }
 }
 
 variable "tags" {
@@ -49,6 +52,7 @@ variable "cloudwatch_destination" {
     description = ""
     type = object({
       retention_in_days = optional(number, 30)  
-      log_group_class   = optional(string)  # STANDARD, INFREQUENT_ACCESS, or DELIVERY
+      log_group_class   = optional(string, "STANDARD")  # STANDARD, INFREQUENT_ACCESS, or DELIVERY
     })
+    default = {}
 }

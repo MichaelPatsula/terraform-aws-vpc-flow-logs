@@ -18,10 +18,15 @@ resource "aws_flow_log" "this" {
   vpc_id = var.vpc_id
 
   # Optional: Configure logs to use Parquet format and per-hour partitions for Athena optimization
-  destination_options {
-    file_format        = var.destination_options.file_format
-    per_hour_partition = var.destination_options.per_hour_partition
-  }
+  dynamic "destination_options" {
+    for_each = var.destination_options != null && var.log_destination_type != "cloud-watch-logs" ? ["destination_options"] : []   
 
+    content {
+      file_format                = var.destination_options.file_format
+      hive_compatible_partitions = var.destination_options.hive_compatible_partitions
+      per_hour_partition         = var.destination_options.per_hour_partition
+    }
+  }
+  
   tags = var.tags
 }

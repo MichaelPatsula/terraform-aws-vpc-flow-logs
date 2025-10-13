@@ -7,7 +7,7 @@
 resource "aws_cloudwatch_log_group" "vpc_flow_log_cloudwatch" {
   count = var.log_destination_type == "cloud-watch-logs" && var.log_destination == null ? 1 : 0
 
-  name_prefix = "${var.name}-vpc-flow-log"
+  name_prefix = "${var.name}-vpc-fl"
 
   retention_in_days = var.cloudwatch_destination.retention_in_days   
   log_group_class   = var.cloudwatch_destination.log_group_class                # STANDARD or INFREQUENT_ACCESS
@@ -28,7 +28,7 @@ resource "aws_iam_role_policy_attachment" "vpc_flow_log_cloudwatch" {
 resource "aws_iam_role" "vpc_flow_log_cloudwatch" {
   count = var.log_destination_type == "cloud-watch-logs" && var.log_destination == null ? 1 : 0
 
-  name_prefix = "${var.name}-vpc-flow-log-cloudwatch"
+  name = "${var.name}-vpc-flow-log"
   description = "VPC Flow Logs using CloudWatch"  
 
   assume_role_policy = jsonencode({
@@ -65,7 +65,7 @@ resource "aws_iam_policy" "vpc_flow_log_cloudwatch" {
           "logs:CreateLogStream",
           "logs:PutLogEvents",
         ]
-        Resource = "${aws_cloudwatch_log_group.vpc_flow_log_cloudwatch[0].arn}:/aws/vpc/flowlogs/${var.name}-vpc:*"
+        Resource = "${aws_cloudwatch_log_group.vpc_flow_log_cloudwatch[0].arn}:*"
       },
       # (Optional) Describe actions for broader policy, often not strictly needed for service role
       # For strict least privilege, you might omit these for the flow log service role.
