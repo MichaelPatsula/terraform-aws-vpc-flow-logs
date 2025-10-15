@@ -2,8 +2,8 @@
 # This example creates a complete VPC with flow logs, demonstrating real-world usage
 
 module "vpc" {
-  source               = "github.com/michaelpatsula/aws-vpc"
-  name                 = "gen-canary-cc-00"
+  source               = "github.com/michaelpatsula/terraform-aws-vpc"
+  name                 = var.project_name
   cidr_blocks          = ["172.26.0.0/16", "172.27.0.0/16"]
   availability_zones   = [data.aws_availability_zones.this.zone_ids[0], data.aws_availability_zones.this.zone_ids[1]]
   enable_dns_hostnames = true
@@ -33,7 +33,7 @@ module "vpc" {
 module "vpc_flow_logs_security" {
   source = "../../"
 
-  name   = "${var.project_name}-security"
+  name   = var.project_name
   vpc_id = module.vpc.vpc.id
 
   # Security-focused configuration
@@ -57,7 +57,7 @@ module "vpc_flow_logs_security" {
 module "vpc_flow_logs_analytics" {
   source = "../../"
 
-  name   = "${var.project_name}-analytics"
+  name   = var.project_name
   vpc_id = module.vpc.vpc.id
 
   # Analytics-focused configuration

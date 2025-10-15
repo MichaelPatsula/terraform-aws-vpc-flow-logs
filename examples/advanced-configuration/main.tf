@@ -6,7 +6,7 @@
 module "vpc_flow_logs_cloudwatch_optimized" {
   source = "../../"
 
-  name   = "advanced-vpc-cloudwatch"
+  name   = "advanced-cloudwatch"
   vpc_id = data.aws_vpc.default.id
 
   # CloudWatch configuration with cost optimization
@@ -32,7 +32,7 @@ module "vpc_flow_logs_cloudwatch_optimized" {
 module "vpc_flow_logs_s3_optimized" {
   source = "../../"
 
-  name   = "advanced-vpc-s3"
+  name   = "advanced-s3"
   vpc_id = data.aws_vpc.default.id
 
   # S3 configuration with performance optimization

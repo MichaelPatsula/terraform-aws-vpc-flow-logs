@@ -6,7 +6,7 @@
 module "vpc_flow_logs_cloudwatch" {
   source = "../../"
 
-  name   = "example-vpc-cloudwatch"
+  name   = "example"
   vpc_id = data.aws_vpc.default.id
 
   # Use existing CloudWatch Log Group

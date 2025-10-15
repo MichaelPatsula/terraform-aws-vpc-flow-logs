@@ -6,7 +6,7 @@
 module "vpc_flow_logs" {
   source = "../../"
 
-  name   = "example-vpc"
+  name   = "example"
   vpc_id = data.aws_vpc.default.id
 
   # S3 configuration
