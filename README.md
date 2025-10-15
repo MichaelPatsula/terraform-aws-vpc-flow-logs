@@ -227,15 +227,6 @@ module "vpc_flow_logs" {
 - Support for Parquet format for better performance
 - Cost-effective for large volumes of data
 
-## Security
-
-The module implements security best practices:
-
-- **Least Privilege IAM**: IAM policies grant only the minimum required permissions
-- **Service-Specific Roles**: Dedicated IAM roles for VPC Flow Logs service
-- **Secure S3 Policies**: Proper bucket policies for AWS log delivery service
-- **Resource Isolation**: Each deployment creates its own resources
-
 ## Cost Considerations
 
 ### CloudWatch Logs
