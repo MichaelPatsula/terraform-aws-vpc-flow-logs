@@ -5,18 +5,26 @@
 resource "aws_s3_bucket" "flow_log_bucket" {
   count = var.log_destination_type == "s3" && var.log_destination == null ? 1 : 0
 
-  bucket_prefix = "${var.name}-vpc-flow-logs-bucket"
+  bucket_prefix = "${var.name}-vpc-fl"
 
   tags = {
-    Name = "${var.name}-vpc-flow-logs-bucket"
+    Name = "${var.name}-vpc-flow-logs"
+  }
+
+  timeouts {
+    create = "5m"
+    delete = "5m"
   }
 }
 
-resource "aws_s3_bucket_acl" "flow_log_bucket_acl" {
+resource "aws_s3_bucket_ownership_controls" "flow_log_bucket_ownership" {
   count = var.log_destination_type == "s3" && var.log_destination == null ? 1 : 0
 
   bucket = aws_s3_bucket.flow_log_bucket[0].id
-  acl    = "log-delivery-write"
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
 }
 
 resource "aws_s3_bucket_policy" "flow_log_bucket_policy" {
@@ -49,47 +57,16 @@ data "aws_iam_policy_document" "flow_log_s3_policy" {
     ]
 
     condition {
-      test     = "StringEquals"
-      variable = "s3:x-amz-acl"
-      values   = ["bucket-owner-full-control"]
-    }
-
-    condition {
       test     = "ArnLike"
       variable = "aws:SourceArn"
       # The Source ARN must match the region and account of the flow log creator.
-      values   = ["arn:aws:logs:*:${data.aws_caller_identity.this.account_id}:*"]
+      values = ["arn:aws:logs:*:${data.aws_caller_identity.this.account_id}:*"]
     }
-  }
-
-  statement {
-    sid    = "AWSLogDeliveryAclCheck"
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["delivery.logs.amazonaws.com"]
-    }
-
-    actions = [
-      "s3:GetBucketAcl",
-      "s3:ListBucket",
-    ]
-
-    resources = [
-      aws_s3_bucket.flow_log_bucket[0].arn,
-    ]
 
     condition {
       test     = "StringEquals"
       variable = "aws:SourceAccount"
       values   = [data.aws_caller_identity.this.account_id]
-    }
-
-    condition {
-      test     = "ArnLike"
-      variable = "aws:SourceArn"
-      values   = ["arn:aws:logs:*:${data.aws_caller_identity.this.account_id}:*"]
     }
   }
 }
